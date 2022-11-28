@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Design of an Interactive Card Details Form</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="media-query.css">
+</head>
+<body>
+    <section class="container">
+        <section class="left">
+                <section class="card_front">
+                        <nav class="logo">
+                            <img src="../images/card-logo.svg" alt="Logo">
+                        </nav>
+                        <p id="card_number">0000 0000 0000 0000 </p>
+                        <div class="card_details">
+                            <div class="holder_name"> 
+                                <p id="card_name"> JANET JACKSON</p>
+                            </div>
+                            <div class="expiry_date">
+                                <p> <span id ="expiry_month">00</span><span>/</span><span id="expiry_year">00</span></p>
+                            </div>
+                        </div>
+                </section>
+        
+                <section class="card_back">
+                    <div class="cvv_cover">
+                        <span class="cvv" id="cvv">000</span>
+                    </div>
+                </section>
+        </section>
+        <section class="right">
+                <form action="">
+                    <div class="input">
+                        <label for="card_holder"> CARDHOLDER NAME</label>
+                        <input type="text" name="card_holder" id="card_holder" placeholder="Janet Jackson" onkeyup="validateName()">
+                        <span id="card_nameError" class="errorMessage"></span>
+                    </div>
+                    <div class="input">
+                        <label for="card_number"> CARD NUMBER</label>
+                        <input type="text" name="card_number" id="card_numberInput" placeholder="1234 5678 9123 0000" maxlength="19" onkeyup="validateCardNumber()">
+                        <span id="card_numberError" class="errorMessage"> </span>
+                    </div>
+                    <div class="date-cvv">
+                        <div class="dates">
+                            <label for="exp_date"> EXP.DATE (MM/YY)</label>
+                            <div class="dates_inputs">
+                                <select name="expiry_month" id="expiry_monthInput" onkeypress="validateForm()" required>
+                                    <option value="" disabled selected hidden>MM</option>
+                                    <!-- dYNAMICALLY CREATE month using JS -->
+                                    
+                                </select>
+                                
+                                <select name="expiry_year" id="expiry_yearInput" onkeypress="validateForm()" required>
+                                    <option value="" disabled selected hidden>YY</option>
+                                    
+                                    <!-- Dynamically create Year Using JS -->
+                                </select>
+                                
+                            </div>
+                            <span id="exp_dateError" class="errorMessage">T </span>
+                        </div>
+                        <div class="cvv">
+                            <label for="cvv"> CVV</label>
+                            <div class="cvv_input">
+                                    <input type="number" name="cvv" id="cvvInput" placeholder="e.g. 123" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==3) return false;" onkeyup ="validateCVV()" >
+                                    
+                            </div>
+                            <span id="cvvError" class="errorMessage"> </span>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="button">
+                            <button type="button" class="submitBtn" id="btnSubmit" onclick="validateForm(); return false;">Confirm</button>
+                    </div>
+                    
+                    
+                </form>
+                <!-- Get Current Screen Size -->
+                <span id="screen-size"></span>
+        </section>
+    </section>
+    <script src="main.js"></script>
+</body>
+</html>

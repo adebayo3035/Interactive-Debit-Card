@@ -144,7 +144,10 @@ input::-webkit-inner-spin-button {
 .right form .button{
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 15px;
+    flex-direction: column;
+    
 }
 .right form .button button{
     padding: 10px 50px;
@@ -156,6 +159,12 @@ input::-webkit-inner-spin-button {
     border-radius: 10px;
     cursor: pointer;
     width: 300px;
+    margin: 10px;
+}
+.right form .button button[disabled]{
+    background-color: darkgrey;
+    color: #fff;
+    cursor: not-allowed;
 }
 .errorMessage{
     display: none;

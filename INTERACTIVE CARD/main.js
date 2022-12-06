@@ -121,81 +121,119 @@ for (var i = 2022; i <= 2050; i++) {
   document.getElementById('expiry_yearInput').innerHTML += "<option value = " + i + ">" + i + "</option>"
 }
 
-// Form Validation
 
+// Declaring Error Messages as Global Variables
+const card_nameError = document.getElementById('card_nameError')
+const card_numberError = document.getElementById('card_numberError')
+const cvvError = document.getElementById('cvvError')
+const exp_dateError = document.getElementById('exp_dateError')
+
+
+// End of Error Messages
+
+//functions to validate the 4 inputs
 function validateName() {
-  const card_nameError = document.getElementById('card_nameError')
+  const name = document.getElementById('card_holder');
+  card_nameError.style.display = "block";
   var regName =/^[a-zA-Z-]+ [a-zA-Z-]+ [a-zA-Z-]+$/;
-  
-  var name = document.getElementById('card_holder').value;
-  if (!regName.test(name)) {
-    card_nameError.style.display = "block";
+  if (!regName.test(name.value)) {
     card_nameError.textContent = "Error in Card Name, Please Check";
-    document.getElementById('card_holder').focus();
+    name.focus();
     return false;
   }
-  else {
-    card_nameError.style.display = "none";
-    return true;
-    var valid1 = 1;
+  if((name.value).length == 0){
+    card_nameError.innerHTML = "Please Enter Your Full Name";
+    return false;
+    name.focus()
   }
+  card_nameError.innerHTML ='<i class="fa fa-check-square-o" aria-hidden="true"></i>';
+  return true;
+  
 }
+
+// Validate Card Number
 function validateCardNumber(){
-  const card_num = document.getElementById('card_numberInput').value
-  const card_numberError = document.getElementById('card_numberError')
-  if ((card_num).length < 19) {
-    card_numberError.style.display = "block";
+  const card_num = document.getElementById('card_numberInput')
+  card_numberError.style.display = "block";
+  if (((card_num.value).length) != 19) {
     card_numberError.textContent = "Incorrect Card Number, Check and Try Again";
+    card_num.focus()
+    countNumberError = 1
+    return false
+  }
+  if((card_num.value).length == 0){
+    card_nameError.innerHTML = "Please Enter Your Card Number";
     return false;
+    name.focus()
   }
-  else{
-    card_numberError.style.display = "none";
-    return true;
-    var valid2 = 1;
-  }
+  card_numberError.innerHTML ='<i class="fa fa-check-square-o" aria-hidden="true"></i>';
+  return true;
+  
 }
+
 function validateCVV(){
   const cvvInput = document.getElementById('cvvInput').value
-  const cvvError = document.getElementById('cvvError')
-  if ((cvvInput).length < 3) {
-    cvvError.style.display = "block";
+  cvvError.style.display = "block"
+  
+  if ((cvvInput).length != 3) {
     cvvError.textContent = "Incorrect CVV";
     return false;
+    cvvInput.focus();
   }
-  else{
-    cvvError.style.display ="none";
-    return true;
-    var valid3 = 1;
-  }
+  cvvError.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
+  return true;
 }
 
-function validateForm() {
+function validateDate(){
   const expiry_mon = document.getElementById('expiry_monthInput')
   const expiryYear = document.getElementById('expiry_yearInput')
-  
-  const exp_dateError = document.getElementById('exp_dateError')
+  exp_dateError.style.display ="block";
 
  var selectedMonth = expiry_mon.options[expiry_mon.selectedIndex].value;
  var selectedYear = expiryYear.options[expiryYear.selectedIndex].value;
-     if (selectedMonth == "" || selectedYear == "")
-   {
-    exp_dateError.style.display = "block";
-    exp_dateError.textContent = "Please Select Expiry Month or Year";
-    return false;
-   }
-   else {
-    alert("Your Card Details has been Successfully Received. Check Back Later")
-    exp_dateError.style.display = "none";
+     if ((selectedMonth == "") || (selectedYear == ""))
+    {
+      exp_dateError.textContent = "Please Select Expiry Month or Year";
+      return false;
+    }
+    exp_dateError.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
     return true;
+}
+
+function submitCard(){
+  formError.style.display = "block";
+  const checkbox = document.getElementById('attest');
+  if((!validateName() || !validateCardNumber() || !validateCVV() || !validateDate())){
+      formError.textContent ="Please fix all Errors before Submitting";
+      setTimeout(function(){formError.style.display = "none"}, 1000);
+      return false
   }
-  if ((card_nameError.style.display = "block") || (card_numberError.style.display = "block") || (cvvError.style.display = "block")){
-     alert("Please Correct All Errors before submitting");
-   }
-  
+  if(checkbox.checked == false){
+      formError.textContent ="Please Click the Checkbox Above";
+      setTimeout(function(){formError.style.display = "none"}, 1000);
+      return false
+  }
+ alert("Form Data was Successfully Submitted");
+ formError.style.display = "none"
+  return true;
 
 }
 
-
-
-
+function disableButton(){
+  const checkbox = document.getElementById('attest');
+  const btn = document.getElementById('btnSubmit');
+  if(checkbox.checked == true){
+    btn.disabled = false
+    btn.style.backgroundColor = "#2A0861"
+    btn.style.color = "#fff"
+    btn.style.cursor ="pointer"
+  }
+  else if(checkbox.checked == false){
+    btn.disabled = true;
+    btn.style.backgroundColor = "darkgray"
+    btn.style.color = "#fff"
+    btn.style.cursor ="not-allowed"
+  }
+ 
+}
 

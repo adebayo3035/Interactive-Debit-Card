@@ -2,6 +2,7 @@
 // CARD NAME
 const card_name = document.getElementById('card_name')
   , card_holder = document.getElementById('card_holder')
+  card_holder.style.textTransform = "uppercase"
 
 if ((card_holder.value).length === 0) {
   card_name.innerHTML = 'JANET JACKSON'
@@ -50,7 +51,13 @@ if ((expiry_monthInput.value).length === 0) {
   expiry_month.innerHTML = '00'
 }
 expiry_monthInput.addEventListener('input', () => {
-  expiry_month.setAttribute('data-text', expiry_monthInput.value)
+  // Add 0 to expiry Month on card when the selected Month is less than 10
+  if(expiry_monthInput. value < 10){
+    expiry_month.setAttribute('data-text', `0${expiry_monthInput.value}`)
+  }
+  else{
+    expiry_month.setAttribute('data-text', `${expiry_monthInput.value}`)
+  }
 
   expiry_month.innerHTML = expiry_month.getAttribute('data-text')
 
@@ -107,16 +114,18 @@ function screen() {
 // Duplicate month and Year select option
 for (var i = 1; i <= 12; i++) {
   // document.getElementById('month-select'). value = i;
-  if (i >= 10) {
-    document.getElementById('expiry_monthInput').innerHTML += "<option value = " + i + ">" + i + "</option>"
-  } else {
-    document.getElementById('expiry_monthInput').innerHTML += "<option value = " + i + ">" + "0" + i + "</option>"
-  }
+  document.getElementById('expiry_monthInput').innerHTML += "<option value = " + i + ">" + i + "</option>"
+  // if (i >= 10) {
+  //   document.getElementById('expiry_monthInput').innerHTML += "<option value = " + i + ">" + i + "</option>"
+  // } else {
+  //   document.getElementById('expiry_monthInput').innerHTML += "<option value = " + i + ">" + "0" + i + "</option>"
+  // }
 
 
 }
-
-for (var i = 2022; i <= 2050; i++) {
+const currentDate = new Date();
+const currentYear = currentDate.getFullYear();
+for (var i = currentYear; i <= (currentYear + 5); i++) {
   // document.getElementById('month-select'). value = i;
   document.getElementById('expiry_yearInput').innerHTML += "<option value = " + i + ">" + i + "</option>"
 }
@@ -127,6 +136,7 @@ const card_nameError = document.getElementById('card_nameError')
 const card_numberError = document.getElementById('card_numberError')
 const cvvError = document.getElementById('cvvError')
 const exp_dateError = document.getElementById('exp_dateError')
+const errorMessage = document.querySelectorAll('.errorMessage')
 
 
 // End of Error Messages
@@ -141,13 +151,17 @@ function validateName() {
     name.focus();
     return false;
   }
-  if((name.value).length == 0){
+  else if((name.value).length == 0){
     card_nameError.innerHTML = "Please Enter Your Full Name";
     return false;
     name.focus()
   }
-  card_nameError.innerHTML ='<i class="fa fa-check-square-o" aria-hidden="true"></i>';
-  return true;
+  else{
+    card_nameError.innerHTML ='<i class="fa fa-check-square-o" aria-hidden="true"></i>';
+    card_nameError.style.color = "green";
+    return true;
+  }
+  
   
 }
 
@@ -161,13 +175,17 @@ function validateCardNumber(){
     countNumberError = 1
     return false
   }
-  if((card_num.value).length == 0){
+  else if((card_num.value).length == 0){
     card_nameError.innerHTML = "Please Enter Your Card Number";
     return false;
     name.focus()
   }
-  card_numberError.innerHTML ='<i class="fa fa-check-square-o" aria-hidden="true"></i>';
-  return true;
+  else{
+    card_numberError.innerHTML ='<i class="fa fa-check-square-o" aria-hidden="true"></i>';
+    card_numberError.style.color ="green";
+    return true;
+  }
+  
   
 }
 
@@ -180,8 +198,12 @@ function validateCVV(){
     return false;
     cvvInput.focus();
   }
-  cvvError.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
-  return true;
+  else{
+    cvvError.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
+    cvvError.style.color ="green"
+    return true;
+  }
+  
 }
 
 function validateDate(){
@@ -196,8 +218,12 @@ function validateDate(){
       exp_dateError.textContent = "Please Select Expiry Month or Year";
       return false;
     }
-    exp_dateError.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
-    return true;
+    else{
+      exp_dateError.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
+      exp_dateError.style.color = "green";
+      return true;
+    }
+    
 }
 
 function submitCard(){
